@@ -1,0 +1,6 @@
+/integration-repo/
+/build-spring-webflow/
+/*/target/
+/*/lib/
+/spring-webflow-samples/*/target/
+/spring-webflow-samples/*/lib/

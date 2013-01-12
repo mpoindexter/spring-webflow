@@ -29,6 +29,28 @@
   <path id="ivy.lib.path">
     <fileset dir="${common.build.dir}/lib" includes="*.jar"/>
   </path>
+  <!-- by default we filter certain file types on copying -->
+  <patternset id="std.files.to.filter">
+    <include name="**/*.xml" />
+    <include name="**/*.properties" />
+    <include name="**/*.conf" />
+    <include name="**/*.sql" />
+    <include name="**/*.txt" />
+    <include name="**/*.email" />
+    <include name="**/*.html" />
+    <include name="**/*.htm" />
+  </patternset>
+  <patternset id="std.files.not.to.filter">
+    <exclude name="**/*.xml" />
+    <exclude name="**/*.properties" />
+    <exclude name="**/*.conf" />
+    <exclude name="**/*.sql" />
+    <exclude name="**/*.txt" />
+    <exclude name="**/*.email" />
+    <exclude name="**/*.html" />
+    <exclude name="**/*.htm" />
+  </patternset>
+
   <taskdef resource="fr/jayasoft/ivy/ant/antlib.xml"
            uri="antlib:fr.jayasoft.ivy.ant" classpathref="ivy.lib.path"/>
   
@@ -121,36 +143,6 @@
        if it actually needs to use appserver specific properties -->
     <property name="target.appserver" value="UNDEFINED" />
 
-    <!-- by default we filter certain file types on copying -->
-    <patternset id="std.files.to.filter">
-      <include name="**/*.xml" />
-      <include name="**/*.properties" />
-      <include name="**/*.conf" />
-      <include name="**/*.sql" />
-      <include name="**/*.txt" />
-      <include name="**/*.email" />
-      <include name="**/*.html" />
-      <include name="**/*.htm" />
-    </patternset>
-
-    <patternset id="std.files.not.to.filter">
-      <exclude name="**/*.xml" />
-      <exclude name="**/*.properties" />
-      <exclude name="**/*.conf" />
-      <exclude name="**/*.sql" />
-      <exclude name="**/*.txt" />
-      <exclude name="**/*.email" />
-      <exclude name="**/*.html" />
-      <exclude name="**/*.htm" />
-    </patternset>
-
-    <patternset id="web.public.content.files">
-      <patternset refid="image.files" />
-      <patternset refid="html.files" />
-      <include name="index.jsp" />
-      <include name="**/*.js" />
-      <exclude name="WEB-INF/**" />
-    </patternset>
 
     <patternset id="image.files">
       <include name="**/*.png" />
@@ -164,11 +156,6 @@
       <include name="**/*.css" />
     </patternset>
 
-    <patternset id="web.protected.content.files">
-      <patternset refid="scriptlet.files" />
-      <patternset refid="web.config.files" />
-    </patternset>
-
     <patternset id="scriptlet.files">
       <include name="**/*.jsp" />
       <include name="**/*.vm" />
@@ -179,6 +166,19 @@
       <include name="WEB-INF/classes/**/*.properties" />
       <include name="WEB-INF/classes/**/*.txt" />
       <include name="WEB-INF/classes/**/*.conf" />
+    </patternset>
+
+    <patternset id="web.public.content.files">
+      <patternset refid="image.files" />
+      <patternset refid="html.files" />
+      <include name="index.jsp" />
+      <include name="**/*.js" />
+      <exclude name="WEB-INF/**" />
+    </patternset>
+
+    <patternset id="web.protected.content.files">
+      <patternset refid="scriptlet.files" />
+      <patternset refid="web.config.files" />
     </patternset>
 
     <property name="target.lib.dir" value="${target.artifacts.dir}/lib" />
@@ -429,7 +429,7 @@
 
     <!-- copy everything from the source dir, except java files. Do not filter. Files
        that need filtering should source from ${src.test.resources.dir} -->
-    <copy todir="${target.testclasses.dir}">
+    <copy todir="${target.testclasses.dir}" failonerror="false">
       <fileset dir="${src.java.test.dir}">
         <exclude name="**/*.java" />
       </fileset>
@@ -549,6 +549,7 @@
 
   <target name="compile.source">
     <echo>compiling main sources</echo>
+    <mkdir dir="${src.java.main.dir}"/>
     <javac destdir="${target.classes.dir}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}" source="${javac.source}" target="${javac.target}">
       <src path="${src.java.main.dir}" />
       <src path="${target.gen.java.dir}" />
@@ -558,6 +559,7 @@
 
   <target name="compile.tests">
     <echo>compiling test sources</echo>
+    <mkdir dir="${src.java.test.dir}"/>
     <javac destdir="${target.testclasses.dir}" debug="${debug}" deprecation="${deprecation}" optimize="${optimize}" source="${javac.source}" target="${javac.target}">
 		<src path="${src.java.test.dir}" />
 		<src path="${target.gen.java.test.dir}" />

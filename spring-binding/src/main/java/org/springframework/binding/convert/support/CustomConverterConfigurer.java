@@ -50,8 +50,8 @@ public class CustomConverterConfigurer implements BeanFactoryPostProcessor, Init
 	public void postProcessBeanFactory(ConfigurableListableBeanFactory beanFactory) throws BeansException {
 		ConversionExecutor[] executors = conversionService.getConversionExecutorsForSource(String.class);
 		for (int i = 0; i < executors.length; i++) {
-			ConverterPropertyEditorAdapter editor = new ConverterPropertyEditorAdapter(executors[i]);
-			beanFactory.registerCustomEditor(editor.getTargetClass(), editor);
+			ConverterPropertyEditorRegistrar registrar = new ConverterPropertyEditorRegistrar(executors[i]);
+			beanFactory.addPropertyEditorRegistrar(registrar);
 		}
 	}
 }

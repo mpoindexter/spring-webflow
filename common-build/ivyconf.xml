@@ -26,6 +26,11 @@
 				<ivy pattern="https://springframework.svn.sourceforge.net/svnroot/springframework/repos/repo-snapshots/[organisation]/[module]/ivy-[revision].xml" />
 				<artifact pattern="https://springframework.svn.sourceforge.net/svnroot/springframework/repos/repo-snapshots/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
 			</url>
+			<!-- try maven repo -->
+			<url name="maven2-repo" m2compatible="true">
+				<ivy pattern="http://repo1.maven.org/maven2/[organisation]/[module]/ivy-[revision].xml" />
+				<artifact pattern="http://repo1.maven.org/maven2/[organisation]/[module]/[revision]/[artifact]-[revision].[ext]" />
+			</url>
 		</chain>
 
 		<chain name="maven2" returnFirst="true">

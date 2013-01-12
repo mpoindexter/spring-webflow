@@ -345,7 +345,7 @@ public class FormActionTests extends TestCase {
 
 		OtherTestBean freshBean = new OtherTestBean();
 		context.getFlowScope().put("test", freshBean);
-		context.getRequestScope().put(BindException.ERROR_KEY_PREFIX + "test", errors);
+		context.getRequestScope().put(BindException.MODEL_KEY_PREFIX + "test", errors);
 
 		FormAction otherAction = createFormAction("test");
 		otherAction.setFormObjectClass(OtherTestBean.class);

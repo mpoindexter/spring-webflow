@@ -161,7 +161,7 @@ to see a list of all relevant targets.
 
 	<target name="dist" depends="init" description="Calls dist targets on each project">
 		<echo>projects=${projects}</echo>
-		<subant target="dist" inheritall="false">
+		<subant target="dist" inheritall="false" inheritrefs="true">
 			<buildpath refid="${projects}" />
 		</subant>
 	</target>
