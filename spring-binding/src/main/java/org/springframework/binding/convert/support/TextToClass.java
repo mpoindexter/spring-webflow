@@ -17,7 +17,6 @@ package org.springframework.binding.convert.support;
 
 import org.springframework.binding.convert.ConversionContext;
 import org.springframework.util.Assert;
-import org.springframework.util.ClassUtils;
 import org.springframework.util.StringUtils;
 
 /**
@@ -44,7 +43,7 @@ public class TextToClass extends ConversionServiceAwareConverter {
 		if (StringUtils.hasText(text)) {
 			String classNameOrAlias = text.trim();
 			if (classNameOrAlias.startsWith(CLASS_PREFIX)) {
-				return ClassUtils.forName(text.substring(CLASS_PREFIX.length()));
+				return Class.forName(text.substring(CLASS_PREFIX.length()));
 			} else if (classNameOrAlias.startsWith(ALIAS_PREFIX)) {
 				String alias = text.substring(ALIAS_PREFIX.length());
 				Class clazz = getConversionService().getClassByAlias(alias);
@@ -59,7 +58,7 @@ public class TextToClass extends ConversionServiceAwareConverter {
 					}
 				}
 				// treat as a class name
-				return ClassUtils.forName(classNameOrAlias);
+				return Class.forName(classNameOrAlias);
 			}
 		} else {
 			return null;

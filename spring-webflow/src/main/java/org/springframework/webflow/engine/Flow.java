@@ -16,12 +16,12 @@
 package org.springframework.webflow.engine;
 
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.binding.mapping.AttributeMapper;
-import org.springframework.core.CollectionFactory;
 import org.springframework.core.style.StylerUtils;
 import org.springframework.core.style.ToStringCreator;
 import org.springframework.util.Assert;
@@ -111,7 +111,7 @@ public class Flow extends AnnotatedObject implements FlowDefinition {
 	/**
 	 * The set of state definitions for this flow.
 	 */
-	private Set states = CollectionFactory.createLinkedSetIfPossible(9);
+	private Set states = new LinkedHashSet(9);
 
 	/**
 	 * The default start state for this flow.
@@ -121,7 +121,7 @@ public class Flow extends AnnotatedObject implements FlowDefinition {
 	/**
 	 * The set of flow variables created by this flow.
 	 */
-	private Set variables = CollectionFactory.createLinkedSetIfPossible(3);
+	private Set variables = new LinkedHashSet(3);
 
 	/**
 	 * The mapper to map flow input attributes.
@@ -159,7 +159,7 @@ public class Flow extends AnnotatedObject implements FlowDefinition {
 	/**
 	 * The set of inline flows contained by this flow.
 	 */
-	private Set inlineFlows = CollectionFactory.createLinkedSetIfPossible(3);
+	private Set inlineFlows = new LinkedHashSet(3);
 
 	/**
 	 * Construct a new flow definition with the given id. The id should be unique among all flows.
@@ -244,8 +244,8 @@ public class Flow extends AnnotatedObject implements FlowDefinition {
 	}
 
 	/**
-	 * Set the start state for this flow to the state with the provided <code>stateId</code>; a state must exist by
-	 * the provided <code>stateId</code>.
+	 * Set the start state for this flow to the state with the provided <code>stateId</code>; a state must exist by the
+	 * provided <code>stateId</code>.
 	 * @param stateId the id of the new start state
 	 * @throws IllegalArgumentException when no state exists with the id you provided
 	 */
@@ -371,8 +371,8 @@ public class Flow extends AnnotatedObject implements FlowDefinition {
 	}
 
 	/**
-	 * Returns the list of actions executed by this flow when an execution of the flow <i>ends</i>. The returned list
-	 * is mutable.
+	 * Returns the list of actions executed by this flow when an execution of the flow <i>ends</i>. The returned list is
+	 * mutable.
 	 * @return the end action list
 	 */
 	public ActionList getEndActionList() {
@@ -568,8 +568,7 @@ public class Flow extends AnnotatedObject implements FlowDefinition {
 	 * Handle an exception that occured during an execution of this flow.
 	 * @param exception the exception that occured
 	 * @param context the flow execution control context
-	 * @return the selected error view, or <code>null</code> if no handler matched or returned a non-null view
-	 * selection
+	 * @return the selected error view, or <code>null</code> if no handler matched or returned a non-null view selection
 	 */
 	public ViewSelection handleException(FlowExecutionException exception, RequestControlContext context)
 			throws FlowExecutionException {
@@ -606,9 +605,9 @@ public class Flow extends AnnotatedObject implements FlowDefinition {
 
 	public String toString() {
 		return new ToStringCreator(this).append("id", id).append("states", states).append("startState", startState)
-				.append("variables", variables).append("inputMapper", inputMapper).append("startActionList",
-						startActionList).append("exceptionHandlerSet", exceptionHandlerSet).append(
-						"globalTransitionSet", globalTransitionSet).append("endActionList", endActionList).append(
-						"outputMapper", outputMapper).append("inlineFlows", inlineFlows).toString();
+				.append("variables", variables).append("inputMapper", inputMapper)
+				.append("startActionList", startActionList).append("exceptionHandlerSet", exceptionHandlerSet)
+				.append("globalTransitionSet", globalTransitionSet).append("endActionList", endActionList)
+				.append("outputMapper", outputMapper).append("inlineFlows", inlineFlows).toString();
 	}
 }
